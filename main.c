@@ -34,7 +34,7 @@ int main(void)
 
         for (int i = 0; i < 4; i++)
         {
-            if (u[i] == g[i])
+            if (g[i] == u[i])
             {
                 ox++;
             }
@@ -46,7 +46,16 @@ int main(void)
         }
 
         for (int d = 0; d < 10; d++)
-            cow += (freq_g[d] < freq_u[d] ? freq_g[d] : freq_u[d]);
+        {
+            if (freq_g[d] < freq_u[d])
+            {
+                cow += freq_g[d];
+            }
+            else
+            {
+                cow += freq_u[d];
+            }
+        }
 
         printf("%d бык", ox);
         if (ox != 1)
