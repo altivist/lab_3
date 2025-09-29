@@ -7,52 +7,46 @@ int main(void)
     srand(time(NULL));
     int guess = rand() % 10000;
 
-    int g[4];
-    g[0] = guess / 1000;
-    g[1] = (guess % 1000) / 100;
-    g[2] = (guess % 100) / 10;
-    g[3] = guess % 10;
+    int g[4] = {guess / 1000, (guess / 100) % 10, (guess / 10) % 10, guess % 10};
+    printf("debug: %d\n", guess);
 
     int ox, cow;
     do
     {
         ox = cow = 0;
+
         int user;
         printf("\nВведите любое число от 0 до 9999 включительно: ");
-
-        if (!(scanf("%d", &user)))
+        if (scanf("%d", &user) != 1)
         {
-            printf("Некорретный ввод!");
-            return -1;
-        }
-        if ((user < 0) || (user > 9999))
-        {
-            printf("Вне диапазона!");
+            printf("Некорректный ввод!\n");
             return 1;
         }
-        int u[4];
-        u[0] = user / 1000;
-        u[1] = (user % 1000) / 100;
-        u[2] = (user % 100) / 10;
-        u[3] = user % 10;
+        if (user < 0 || user > 9999)
+        {
+            printf("Вне диапазона!\n");
+            return -1;
+        }
+
+        int u[4] = {user / 1000, (user / 100) % 10, (user / 10) % 10, user % 10};
+
+        int freq_g[10] = {0}, freq_u[10] = {0};
 
         for (int i = 0; i < 4; i++)
         {
-            char is_cow = 0;
-            for (int j = 0; j < 4; j++)
+            if (u[i] == g[i])
             {
-                if ((u[i] == g[j]) && (i == j))
-                {
-                    ox += 1;
-                    break;
-                }
-                if ((u[i] == g[j]) && (i != j))
-                {
-                    is_cow = 1;
-                }
+                ox++;
             }
-            cow += is_cow;
+            else
+            {
+                freq_g[g[i]]++;
+                freq_u[u[i]]++;
+            }
         }
+
+        for (int d = 0; d < 10; d++)
+            cow += (freq_g[d] < freq_u[d] ? freq_g[d] : freq_u[d]);
 
         printf("%d бык", ox);
         if (ox != 1)
@@ -71,6 +65,10 @@ int main(void)
                 printf("ы");
         }
         printf("\n");
+
+        printf("\n");
     } while (ox != 4);
+
+    printf("Поздравляю! Вы угадали число!\n");
     return 0;
 }
