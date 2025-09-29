@@ -8,7 +8,7 @@ int main(void)
     int guess = rand() % 10000;
 
     int g[4] = {guess / 1000, (guess / 100) % 10, (guess / 10) % 10, guess % 10};
-    printf("debug: %d\n", guess);
+    // printf("debug: %d\n", guess);
 
     int ox, cow;
     do
